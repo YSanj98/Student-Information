@@ -44,7 +44,28 @@ public class StuInfo {
         ADDButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                int stId = Integer.parseInt(textFieldStID.getText());
+                String name = textFieldName.getText();
+                String dob = textFieldDob.getText();
+                String city = textFieldCity.getText();
+                try{
+                    pst = con.prepareStatement("INSERT INTO `student` (`student_id`, `name`, `dob`, `city`) VALUES (?, ?, ?, ?);");
+                    pst.setString(1, String.valueOf(stId));
+                    pst.setString(2, name);
+                    pst.setString(3, dob);
+                    pst.setString(4, city);
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Record Added");
+
+                    textFieldStID.setText("");
+                    textFieldName.setText("");
+                    textFieldDob.setText("");
+                    textFieldCity.setText("");
+                    textFieldName.requestFocus();
+
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
 
 
             }
