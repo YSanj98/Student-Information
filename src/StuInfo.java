@@ -109,11 +109,12 @@ public class StuInfo {
                 String scity = textFieldCity.getText();
 
                 try {
-                    pst = con.prepareStatement("UPDATE student SET student_id = ?,name = ?,dob = ?,city = ? WHERE student_id = ?");
+                    pst = con.prepareStatement("UPDATE `student` SET `student_id`=?,`name`=?,`dob`=?,`city`=? WHERE `student_id`=?");
                     pst.setString(1, String.valueOf(sId));
                     pst.setString(2, sname);
                     pst.setString(3, sdob);
                     pst.setString(4, scity);
+                    pst.setString(5, String.valueOf(sId));
 
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Record Update");
@@ -121,7 +122,8 @@ public class StuInfo {
                     textFieldStID.setText("");
                     textFieldName.setText("");
                     textFieldDob.setText("");
-                    textFieldCity.requestFocus();
+                    textFieldCity.setText("");
+                    textFieldStID.requestFocus();
                 } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
