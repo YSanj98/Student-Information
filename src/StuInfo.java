@@ -109,7 +109,7 @@ public class StuInfo {
                 String scity = textFieldCity.getText();
 
                 try {
-                    pst = con.prepareStatement("update student set student_id = ?,name = ?,dob = ?,city = ? where id = ?");
+                    pst = con.prepareStatement("UPDATE student SET student_id = ?,name = ?,dob = ?,city = ? WHERE student_id = ?");
                     pst.setString(1, String.valueOf(sId));
                     pst.setString(2, sname);
                     pst.setString(3, sdob);
@@ -136,7 +136,7 @@ public class StuInfo {
                 stId = Integer.parseInt(textFieldStID.getText());
 
                 try {
-                    pst = con.prepareStatement("delete from student  where student_id = ?");
+                    pst = con.prepareStatement("DELETE FROM student  WHERE student_id = ?");
                     pst.setString(1, String.valueOf(stId));
 
                     pst.executeUpdate();
@@ -164,7 +164,7 @@ public class StuInfo {
 
                     int searchId = Integer.parseInt(textFieldSearch.getText());
 
-                    pst = con.prepareStatement("select student_id,name,dob,city from student where student_id = ?");
+                    pst = con.prepareStatement("SELECT student_id,name,dob,city FROM student WHERE student_id = ?");
                     pst.setString(1, String.valueOf(searchId));
                     ResultSet rs = pst.executeQuery();
 
