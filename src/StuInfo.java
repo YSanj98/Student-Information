@@ -1,3 +1,5 @@
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +16,8 @@ public class StuInfo {
     private JButton ADDButton;
     private JButton viewButton;
     private JPanel JpanelStuInfo;
+    private JButton updateButton;
+    private JButton deleteButton;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("StuInfo");
@@ -38,8 +42,21 @@ public class StuInfo {
         }
     }
 
+    public void tableLoad(){
+        try {
+            pst = con.prepareStatement("select * from student");
+            ResultSet rs = pst.executeQuery();
+            table1.setModel(DbUtils.resultSetToTableModel(rs));
+
+        }catch(SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
     public StuInfo() {
         connect();
+        tableLoad();
 
         ADDButton.addActionListener(new ActionListener() {
             @Override
@@ -61,7 +78,7 @@ public class StuInfo {
                     textFieldName.setText("");
                     textFieldDob.setText("");
                     textFieldCity.setText("");
-                    textFieldName.requestFocus();
+                    textFieldStID.requestFocus();
 
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
@@ -70,5 +87,19 @@ public class StuInfo {
 
             }
         });
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        viewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StudentView.run();
+            }
+        });
     }
 }
+
+
