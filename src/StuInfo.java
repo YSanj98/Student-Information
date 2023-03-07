@@ -14,10 +14,13 @@ public class StuInfo {
     private JTextField textFieldDob;
     private JTextField textFieldCity;
     private JButton ADDButton;
-    private JButton viewButton;
+    private JButton refreshButton1;
     private JPanel JpanelStuInfo;
     private JButton updateButton;
     private JButton deleteButton;
+    private JTable table1;
+    private JScrollPane table_1;
+    private JButton refreshButton;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("StuInfo");
@@ -30,7 +33,7 @@ public class StuInfo {
     Connection con;
     PreparedStatement pst;
 
-    public void connect(){
+    public void connect() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost/students", "root", "");
@@ -42,9 +45,23 @@ public class StuInfo {
         }
     }
 
+    public void tableLoad() {
+        try {
+            pst = con.prepareStatement("select * from student");
+            ResultSet rs = pst.executeQuery();
+            table1.setModel(DbUtils.resultSetToTableModel(rs));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
     public StuInfo() {
         connect();
+        tableLoad();
 
+        //add button
         ADDButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -52,7 +69,7 @@ public class StuInfo {
                 String name = textFieldName.getText();
                 String dob = textFieldDob.getText();
                 String city = textFieldCity.getText();
-                try{
+                try {
                     pst = con.prepareStatement("INSERT INTO `student` (`student_id`, `name`, `dob`, `city`) VALUES (?, ?, ?, ?);");
                     pst.setString(1, String.valueOf(stId));
                     pst.setString(2, name);
@@ -70,10 +87,10 @@ public class StuInfo {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-
-
             }
         });
+
+        //update button
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,20 +108,18 @@ public class StuInfo {
 
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Record Update");
-                    table_load();
+                    tableLoad();
                     textFieldStID.setText("");
                     textFieldName.setText("");
                     textFieldDob.setText("");
                     textFieldCity.requestFocus();
-                }
-
-                catch (SQLException e1)
-                {
+                } catch (SQLException e1) {
                     e1.printStackTrace();
                 }
             }
+        });
 
-            }
+        //delete button
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -118,29 +133,24 @@ public class StuInfo {
 
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Record Delete");
-                    table_load();
+                    tableLoad();
                     textFieldName.setText("");
                     textFieldDob.setText("");
                     textFieldCity.setText("");
                     textFieldStID.requestFocus();
-                }
-
-                catch (SQLException e1)
-                {
+                } catch (SQLException e1) {
 
                     e1.printStackTrace();
                 }
             }
-            }
         });
-    });
-        viewButton.addActionListener(new ActionListener() {
+
+        //view data on table
+        refreshButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                StudentView.run();
+                tableLoad();
             }
         });
     }
 }
-
-
