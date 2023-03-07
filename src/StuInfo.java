@@ -42,21 +42,8 @@ public class StuInfo {
         }
     }
 
-    public void tableLoad(){
-        try {
-            pst = con.prepareStatement("select * from student");
-            ResultSet rs = pst.executeQuery();
-            table1.setModel(DbUtils.resultSetToTableModel(rs));
-
-        }catch(SQLException e) {
-            e.printStackTrace();
-
-        }
-    }
-
     public StuInfo() {
         connect();
-        tableLoad();
 
         ADDButton.addActionListener(new ActionListener() {
             @Override
@@ -90,6 +77,32 @@ public class StuInfo {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int stId = Integer.parseInt(textFieldStID.getText());
+                String name = textFieldName.getText();
+                String dob = textFieldDob.getText();
+                String city = textFieldCity.getText();
+
+                try {
+                    pst = con.prepareStatement("update employee set student_id = ?,name = ?,dob = ?,city = ? where id = ?");
+                    pst.setString(1, String.valueOf(stId));
+                    pst.setString(2, name);
+                    pst.setString(3, dob);
+                    pst.setString(4, city);
+
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Record Update");
+                    table_load();
+                    textFieldStID.setText("");
+                    textFieldName.setText("");
+                    textFieldDob.setText("");
+                    textFieldCity.requestFocus();
+                }
+
+                catch (SQLException e1)
+                {
+                    e1.printStackTrace();
+                }
+            }
 
             }
         });
