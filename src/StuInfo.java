@@ -83,7 +83,7 @@ public class StuInfo {
                 String city = textFieldCity.getText();
 
                 try {
-                    pst = con.prepareStatement("update employee set student_id = ?,name = ?,dob = ?,city = ? where id = ?");
+                    pst = con.prepareStatement("update students set student_id = ?,name = ?,dob = ?,city = ? where id = ?");
                     pst.setString(1, String.valueOf(stId));
                     pst.setString(2, name);
                     pst.setString(3, dob);
@@ -105,7 +105,35 @@ public class StuInfo {
             }
 
             }
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String stId;
+                stId = textFieldStID.getText();
+
+                try {
+                    pst = con.prepareStatement("delete from students  where id = ?");
+
+                    pst.setString(1, stId);
+
+                    pst.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Record Delete");
+                    table_load();
+                    textFieldName.setText("");
+                    textFieldDob.setText("");
+                    textFieldCity.setText("");
+                    textFieldStID.requestFocus();
+                }
+
+                catch (SQLException e1)
+                {
+
+                    e1.printStackTrace();
+                }
+            }
+            }
         });
+    });
         viewButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
