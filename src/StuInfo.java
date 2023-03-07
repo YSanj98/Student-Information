@@ -103,17 +103,17 @@ public class StuInfo {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int stId = Integer.parseInt(textFieldStID.getText());
-                String name = textFieldName.getText();
-                String dob = textFieldDob.getText();
-                String city = textFieldCity.getText();
+                int sId = Integer.parseInt(textFieldStID.getText());
+                String sname = textFieldName.getText();
+                String sdob = textFieldDob.getText();
+                String scity = textFieldCity.getText();
 
                 try {
                     pst = con.prepareStatement("update student set student_id = ?,name = ?,dob = ?,city = ? where id = ?");
-                    pst.setString(1, String.valueOf(stId));
-                    pst.setString(2, name);
-                    pst.setString(3, dob);
-                    pst.setString(4, city);
+                    pst.setString(1, String.valueOf(sId));
+                    pst.setString(2, sname);
+                    pst.setString(3, sdob);
+                    pst.setString(4, scity);
 
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Record Update");
@@ -137,12 +137,12 @@ public class StuInfo {
 
                 try {
                     pst = con.prepareStatement("delete from student  where student_id = ?");
-
                     pst.setString(1, String.valueOf(stId));
 
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Record Delete");
                     tableLoad();
+                    textFieldStID.setText("");
                     textFieldName.setText("");
                     textFieldDob.setText("");
                     textFieldCity.setText("");
@@ -187,7 +187,7 @@ public class StuInfo {
                         textFieldName.setText("");
                         textFieldDob.setText("");
                         textFieldCity.setText("");
-                        JOptionPane.showMessageDialog(null,"Invalid Employee No");
+                        JOptionPane.showMessageDialog(null,"Invalid Student No");
 
                     }
                 }
