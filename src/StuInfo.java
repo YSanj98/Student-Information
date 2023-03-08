@@ -105,12 +105,12 @@ public class StuInfo {
 
                     if(rs.next()==true)
                     {
-                        String sId = rs.getString(1);
+                        int sId = Integer.parseInt(rs.getString(1));
                         String sName = rs.getString( 2);
                         String sDob = rs.getString(3);
                         String sCity = rs.getString(4);
 
-                        textFieldStID.setText(sId);
+                        textFieldStID.setText(String.valueOf(sId));
                         textFieldName.setText(sName);
                         textFieldDob.setText(sDob);
                         textFieldCity.setText(sCity);
