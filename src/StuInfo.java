@@ -91,6 +91,49 @@ public class StuInfo {
             }
         });
 
+        //search button
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+
+                    int searchId = Integer.parseInt(textFieldSearch.getText());
+
+                    pst = con.prepareStatement("SELECT student_id,name,dob,city FROM student WHERE student_id = ?");
+                    pst.setString(1, String.valueOf(searchId));
+                    ResultSet rs = pst.executeQuery();
+
+                    if(rs.next()==true)
+                    {
+                        String sId = rs.getString(1);
+                        String sName = rs.getString( 2);
+                        String sDob = rs.getString(3);
+                        String sCity = rs.getString(4);
+
+                        textFieldStID.setText(sId);
+                        textFieldName.setText(sName);
+                        textFieldDob.setText(sDob);
+                        textFieldCity.setText(sCity);
+
+                    }
+                    else
+                    {
+                        textFieldStID.setText("");
+                        textFieldName.setText("");
+                        textFieldDob.setText("");
+                        textFieldCity.setText("");
+                        JOptionPane.showMessageDialog(null,"Invalid Student No");
+
+                    }
+                }
+                catch (SQLException ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+
+        });
+
         //view data on table
         refreshButton1.addActionListener(new ActionListener() {
             @Override
@@ -154,51 +197,6 @@ public class StuInfo {
                     e1.printStackTrace();
                 }
             }
-        });
-
-
-
-        //search button
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-
-                    int searchId = Integer.parseInt(textFieldSearch.getText());
-
-                    pst = con.prepareStatement("SELECT student_id,name,dob,city FROM student WHERE student_id = ?");
-                    pst.setString(1, String.valueOf(searchId));
-                    ResultSet rs = pst.executeQuery();
-
-                    if(rs.next()==true)
-                    {
-                        String sId = rs.getString(1);
-                        String sName = rs.getString( 2);
-                        String sDob = rs.getString(3);
-                        String sCity = rs.getString(4);
-
-                        textFieldStID.setText(sId);
-                        textFieldName.setText(sName);
-                        textFieldDob.setText(sDob);
-                        textFieldCity.setText(sCity);
-
-                    }
-                    else
-                    {
-                        textFieldStID.setText("");
-                        textFieldName.setText("");
-                        textFieldDob.setText("");
-                        textFieldCity.setText("");
-                        JOptionPane.showMessageDialog(null,"Invalid Student No");
-
-                    }
-                }
-                catch (SQLException ex)
-                {
-                    ex.printStackTrace();
-                }
-            }
-
         });
     }
 }
